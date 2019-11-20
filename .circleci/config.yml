@@ -1,0 +1,34 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: docker
+        environment:
+          TEST: true
+
+    resource_class: small
+
+    environment:
+      TEST1: "1.13.1"
+      TEST2: v1.15.3
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Install dependencies
+          command: |
+            apt-get update -y && apt-get install qemu-user-static
+            dpkg -L qemu-user-static
+
+      - run:
+          name: Build electrs
+          command: ./build.sh images/electrs
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - build
