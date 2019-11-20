@@ -2,10 +2,13 @@ version: 2.1
 
 jobs:
   build:
-    docker:
-      - image: docker
-        environment:
-          TEST: true
+    working_directory: /checkout
+    #docker:
+    #- image: docker
+    #environment:
+    #TEST: true
+    machine:
+      image: circleci/classic:latest
 
     resource_class: small
 
@@ -15,7 +18,7 @@ jobs:
 
     steps:
       - checkout
-      - setup_remote_docker
+        #- setup_remote_docker
 
       - run:
           name: Install dependencies
