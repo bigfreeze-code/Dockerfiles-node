@@ -10,7 +10,7 @@ jobs:
     machine:
       image: circleci/classic:latest
 
-    resource_class: small
+    resource_class: medium
 
     environment:
       TEST1: "1.13.1"
@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt-get update -y && apt-get install qemu-user-static
+            sudo apt-get update -y && apt-get install qemu-user-static
             dpkg -L qemu-user-static
 
       - run:
