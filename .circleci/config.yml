@@ -21,15 +21,14 @@ jobs:
         #- setup_remote_docker
 
       - run:
-          name: Install dependencies
+          name: Install dependencies for multiarch
           command: |
-            sudo apt-get update -y 
-            sudo apt-get install -y qemu-user-static
-            dpkg -L qemu-user-static
+                  docker run --rm --privileged multiarch/qemu-user-static:register
 
       - run:
           name: Build electrs
           command: ./build.sh images/electrs
+          no_output_timeout: 1h
 
 workflows:
   version: 2
