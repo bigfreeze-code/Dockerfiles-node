@@ -13,8 +13,7 @@ jobs:
     resource_class: medium
 
     environment:
-      TEST1: "1.13.1"
-      TEST2: v1.15.3
+      QEMU_USER_STATIC_VERSION: "v4.1.0-1"
 
     steps:
       - checkout
@@ -23,7 +22,12 @@ jobs:
       - run:
           name: Install dependencies for multiarch
           command: |
-                  docker run --rm --privileged multiarch/qemu-user-static:register
+            for target_arch in aarch64 arm x86_64; do
+              wget -N https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_USER_STATIC_VERSION}/x86_64_qemu-${target_arch}-static.tar.gz
+              tar -xvf x86_64_qemu-${target_arch}-static.tar.gz
+              sudo mv x86_64_qemu-${target_arch}-static /usr/bin
+            done
+            docker run --rm --privileged multiarch/qemu-user-static:register
 
       - run:
           name: Build electrs
