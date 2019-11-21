@@ -24,8 +24,9 @@ jobs:
           command: |
             for target_arch in aarch64 arm x86_64; do
               wget -N https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_USER_STATIC_VERSION}/x86_64_qemu-${target_arch}-static.tar.gz
-              tar -xvf x86_64_qemu-${target_arch}-static.tar.gz
-              sudo mv x86_64_qemu-${target_arch}-static /usr/bin
+              tar -xvf qemu-${target_arch}-static.tar.gz
+              rm -f qemu-${target_arch}-static.tar.gz
+              sudo mv qemu-${target_arch}-static /usr/bin
             done
             docker run --rm --privileged multiarch/qemu-user-static:register
 
